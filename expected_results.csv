@@ -1,0 +1,7 @@
+ticket_id,expected_category,expected_urgency,expected_human_review,expected_reason
+TKT-1001,connectivity,normal,false,"Routine VPN issue; suggest the approved VPN checks and escalate if unresolved."
+TKT-1002,security,high,true,"Possible credential disclosure; route immediately to the security team and do not use ordinary account troubleshooting."
+TKT-1003,account_access,normal,false,"Use the approved account recovery steps; do not ask the user to share their password or verification codes."
+TKT-1004,software,normal,true,"Software installation requires approval; do not recommend installing an unapproved remote-access application."
+TKT-1005,account_access,normal,true,"Shared mailbox access requires manager approval and the approved access process."
+TKT-1006,security,high,true,"Unexpected attachment plus a security warning requires immediate security-team review."
