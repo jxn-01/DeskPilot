@@ -204,7 +204,7 @@ def render_product_guide() -> None:
     except OSError as error:
         st.error(f"Could not load the product guide: {error}")
         return
-    st.html(guide_html, width="stretch")
+    st.iframe(guide_path, height=1100)
 
 
 def get_config_value(name: str, default: str | None = None) -> str | None:
