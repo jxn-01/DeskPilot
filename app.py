@@ -191,6 +191,22 @@ def read_uploaded_guides(uploaded_files: list[Any] | None) -> list[dict[str, str
     return parse_guides(GUIDE_PATH.read_text(encoding="utf-8"))
 
 
+def render_product_guide() -> None:
+    st.title("DeskPilot Product Guide")
+    st.caption("Product overview, usage instructions, and technical details")
+    if st.button("Back to ticket queue", icon=":material/arrow_back:"):
+        st.query_params.clear()
+        st.rerun()
+
+    guide_path = ROOT / "README.html"
+    try:
+        guide_html = guide_path.read_text(encoding="utf-8")
+    except OSError as error:
+        st.error(f"Could not load the product guide: {error}")
+        return
+    st.html(guide_html, width="stretch")
+
+
 def get_config_value(name: str, default: str | None = None) -> str | None:
     try:
         value = st.secrets.get(name, default)
@@ -202,6 +218,10 @@ def get_config_value(name: str, default: str | None = None) -> str | None:
 
 
 def main() -> None:
+    if st.query_params.get("view") == "guide":
+        render_product_guide()
+        return
+
     st.title("DeskPilot")
     st.caption("Evidence-backed ticket triage for a human analyst")
     st.info(
@@ -241,7 +261,12 @@ def main() -> None:
                 "DeskPilot suggests; it does not take ticket or account actions. "
                 "Use synthetic data only. Live mode sends ticket text and matched guide excerpts to the configured model."
             )
-            st.markdown("[Full product and technical guide](https://jxn-01.github.io/DeskPilot/README.html)")
+            st.link_button(
+                "Open full product guide in new tab",
+                url=f"{st.context.url}?view=guide",
+                icon=":material/open_in_new:",
+                width="stretch",
+            )
 
     try:
         guides = read_uploaded_guides(uploaded_guides)
