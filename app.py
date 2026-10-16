@@ -213,19 +213,35 @@ def main() -> None:
     base_url = get_config_value("OPENAI_BASE_URL")
     live_mode = bool(api_key)
     with st.sidebar:
-        st.subheader("Analysis mode")
-        if live_mode:
-            st.success(f"Live LLM mode · {model}")
-            st.caption("The app sends ticket text and retrieved guide excerpts to the configured model endpoint.")
-        else:
-            st.warning("Offline demo mode")
-            st.caption("Set OPENAI_API_KEY as an environment variable or Streamlit Cloud secret to enable live LLM analysis.")
-        st.subheader("Knowledge sources")
-        uploaded_guides = st.file_uploader(
-            "Optional support guides (.md or .txt)",
-            type=["md", "txt"],
-            accept_multiple_files=True,
-        )
+        with st.expander("Settings", expanded=False):
+            st.subheader("Analysis mode")
+            if live_mode:
+                st.success(f"Live LLM mode · {model}")
+                st.caption("The app sends ticket text and retrieved guide excerpts to the configured model endpoint.")
+            else:
+                st.warning("Offline demo mode")
+                st.caption("Set OPENAI_API_KEY as an environment variable or Streamlit Cloud secret to enable live LLM analysis.")
+            st.subheader("Knowledge sources")
+            uploaded_guides = st.file_uploader(
+                "Optional support guides (.md or .txt)",
+                type=["md", "txt"],
+                accept_multiple_files=True,
+            )
+
+        with st.expander("Product guide", expanded=False):
+            st.markdown("#### How to use DeskPilot")
+            st.markdown(
+                "1. Upload a ticket CSV or use the built-in examples.\n"
+                "2. Optionally add Markdown or text support guides in **Settings**.\n"
+                "3. Select **Analyze tickets**, inspect the evidence, and export the results."
+            )
+            st.caption("Ticket CSVs must include ticket_id and description columns.")
+            st.markdown("#### Human review and privacy")
+            st.caption(
+                "DeskPilot suggests; it does not take ticket or account actions. "
+                "Use synthetic data only. Live mode sends ticket text and matched guide excerpts to the configured model."
+            )
+            st.markdown("[Full product and technical guide](https://github.com/jxn-01/DeskPilot/blob/main/README.html)")
 
     try:
         guides = read_uploaded_guides(uploaded_guides)
