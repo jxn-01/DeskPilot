@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="DeskPilot product guide, technical reference, and AI-assisted rebuild playbook.">
+  <title>DeskPilot | Product Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172521;
+      --muted: #53645e;
+      --paper: #f7f8f4;
+      --white: #fff;
+      --line: #d9e1dc;
+      --green: #126d58;
+      --green-light: #e5f2ec;
+      --orange: #bb4f2c;
+      --orange-light: #fff0e7;
+      --yellow: #e6bd58;
+      --mono: "DM Mono", Consolas, monospace;
+      --sans: "DM Sans", sans-serif;
+      --display: "Space Grotesk", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.65;
+    }
+    a { color: var(--green); text-underline-offset: 3px; }
+    a:hover { color: var(--orange); }
+    a:focus-visible, summary:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+    code, pre, .eyebrow, .step-number, .status, .table-label { font-family: var(--mono); }
+    code { overflow-wrap: anywhere; }
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: -5rem;
+      z-index: 10;
+      padding: .6rem .85rem;
+      background: var(--ink);
+      color: var(--white);
+    }
+    .skip-link:focus { top: 1rem; }
+    .topbar {
+      min-height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: .75rem max(1.25rem, calc((100vw - 1120px) / 2));
+      border-bottom: 1px solid var(--line);
+      background: var(--white);
+    }
+    .brand {
+      color: var(--ink);
+      font: 700 1rem var(--display);
+      text-decoration: none;
+    }
+    .brand span { color: var(--green); }
+    .topnav { display: flex; flex-wrap: wrap; gap: 1.1rem; }
+    .topnav a { color: var(--muted); font-size: .88rem; text-decoration: none; }
+    .topnav a:hover { color: var(--green); }
+    main { max-width: 1120px; margin: 0 auto; padding: 0 1.4rem 5rem; }
+    .intro {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(270px, .75fr);
+      gap: 3rem;
+      align-items: end;
+      padding: 4.25rem 0 2.5rem;
+    }
+    .eyebrow {
+      margin: 0 0 .9rem;
+      color: var(--green);
+      font-size: .76rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3 { font-family: var(--display); line-height: 1.12; }
+    h1 { max-width: 720px; margin: 0; font-size: clamp(2.4rem, 6vw, 4.6rem); }
+    h1 span { color: var(--green); }
+    .lede { max-width: 700px; margin: 1rem 0 0; color: var(--muted); font-size: 1.12rem; }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      width: fit-content;
+      margin-top: 1.3rem;
+      padding: .36rem .62rem;
+      border: 1px solid #b4d4c8;
+      background: var(--green-light);
+      color: #145843;
+      font-size: .72rem;
+    }
+    .status::before { width: 7px; height: 7px; border-radius: 50%; background: var(--green); content: ""; }
+    .intro-note {
+      padding: 1.25rem 1.4rem;
+      border-left: 3px solid var(--orange);
+      background: var(--orange-light);
+      color: #633622;
+      font-size: .92rem;
+    }
+    .intro-note strong { display: block; margin-bottom: .3rem; color: var(--ink); font-family: var(--display); }
+    .actions { display: flex; flex-wrap: wrap; gap: .7rem; margin: 1.5rem 0 0; }
+    .button {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      padding: .55rem .9rem;
+      border: 1px solid var(--green);
+      background: var(--green);
+      color: white;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .button:hover { background: #0e5948; color: white; }
+    .button.secondary { background: transparent; color: var(--green); }
+    .button.secondary:hover { background: var(--green-light); color: var(--green); }
+    .flow-band {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: var(--white);
+    }
+    .flow-step { position: relative; min-height: 128px; padding: 1.15rem 1.25rem; }
+    .flow-step + .flow-step { border-left: 1px solid var(--line); }
+    .step-number { color: var(--orange); font-size: .72rem; }
+    .flow-step strong { display: block; margin-top: .5rem; font: 600 1rem var(--display); }
+    .flow-step span:last-child { display: block; margin-top: .2rem; color: var(--muted); font-size: .85rem; }
+    section { padding: 3.2rem 0; border-bottom: 1px solid var(--line); }
+    .section-head { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 2rem; margin-bottom: 1.6rem; }
+    .section-head .eyebrow { margin-top: .35rem; }
+    h2 { margin: 0; font-size: clamp(1.75rem, 4vw, 2.55rem); }
+    h3 { margin: 0; font-size: 1.12rem; }
+    .section-copy { max-width: 760px; margin: .7rem 0 0; color: var(--muted); }
+    .steps { border-top: 1px solid var(--line); }
+    .how-step {
+      display: grid;
+      grid-template-columns: 64px minmax(0, 1fr) minmax(200px, .65fr);
+      gap: 1rem 1.4rem;
+      align-items: start;
+      padding: 1.2rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .how-step .step-number { padding-top: .2rem; }
+    .how-step p { margin: .35rem 0 0; color: var(--muted); }
+    .step-tip { color: var(--green); font-size: .88rem; }
+    .outcomes {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      border: 1px solid var(--line);
+      background: var(--line);
+    }
+    .outcome { min-height: 145px; padding: 1.2rem; background: var(--white); }
+    .outcome b { display: block; margin-bottom: .45rem; font: 600 1rem var(--display); }
+    .outcome p { margin: 0; color: var(--muted); font-size: .92rem; }
+    .notice {
+      margin-top: 1.25rem;
+      padding: 1rem 1.15rem;
+      border-left: 3px solid var(--orange);
+      background: var(--orange-light);
+      color: #633622;
+    }
+    .file-links { display: flex; flex-wrap: wrap; gap: .55rem 1.1rem; margin-top: 1rem; }
+    .file-links a { font-family: var(--mono); font-size: .82rem; }
+    .annex-tag { display: inline-block; margin-bottom: .65rem; color: var(--orange); font: 500 .75rem var(--mono); text-transform: uppercase; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); background: var(--white); }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th, td { padding: .8rem .9rem; vertical-align: top; border-bottom: 1px solid var(--line); }
+    th { background: #edf2ee; color: var(--ink); font: 500 .75rem var(--mono); text-transform: uppercase; }
+    td { color: var(--muted); font-size: .9rem; }
+    td:first-child { width: 25%; color: var(--ink); font-weight: 700; }
+    tr:last-child td { border-bottom: 0; }
+    .architecture {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: .55rem;
+      margin: 1.3rem 0;
+      align-items: stretch;
+    }
+    .arch-node { min-height: 106px; padding: .85rem; border-top: 3px solid var(--green); background: var(--white); }
+    .arch-node:nth-child(3) { border-color: var(--orange); }
+    .arch-node b { display: block; font: 600 .9rem var(--display); }
+    .arch-node span { display: block; margin-top: .45rem; color: var(--muted); font-size: .78rem; }
+    .build-list { counter-reset: build; padding: 0; list-style: none; }
+    .build-list li {
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+      gap: .8rem;
+      padding: .95rem 0;
+      border-top: 1px solid var(--line);
+      counter-increment: build;
+    }
+    .build-list li::before { color: var(--orange); content: "0" counter(build); font: 500 .78rem var(--mono); }
+    .build-list p { margin: .25rem 0 0; color: var(--muted); }
+    pre {
+      overflow-x: auto;
+      margin: .75rem 0 0;
+      padding: 1rem;
+      background: #182721;
+      color: #e4f0e9;
+      font-size: .82rem;
+      line-height: 1.55;
+    }
+    .role-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; border: 1px solid var(--line); background: var(--line); }
+    .role { padding: 1rem; background: var(--white); }
+    .role b { font: 600 .95rem var(--display); }
+    .role p { margin: .4rem 0 0; color: var(--muted); font-size: .88rem; }
+    .footer { display: flex; justify-content: space-between; gap: 1rem; padding: 1.5rem 0; color: var(--muted); font-size: .84rem; }
+
+    @media (max-width: 760px) {
+      .topbar { align-items: flex-start; }
+      .topnav { gap: .65rem; justify-content: flex-end; }
+      .topnav a { font-size: .8rem; }
+      .intro { grid-template-columns: 1fr; gap: 1.4rem; padding-top: 3rem; }
+      .flow-band { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .flow-step:nth-child(3) { border-left: 0; border-top: 1px solid var(--line); }
+      .flow-step:nth-child(4) { border-top: 1px solid var(--line); }
+      .section-head { grid-template-columns: 1fr; gap: .4rem; }
+      .how-step { grid-template-columns: 40px minmax(0, 1fr); }
+      .step-tip { grid-column: 2; }
+      .outcomes { grid-template-columns: 1fr; }
+      .architecture { grid-template-columns: 1fr; }
+      .arch-node { min-height: 0; }
+      .role-grid { grid-template-columns: 1fr; }
+      .footer { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+    @media print {
+      .topbar, .actions { display: none; }
+      body { background: white; }
+      main { max-width: none; }
+      section { break-inside: avoid; }
+      a { color: inherit; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to guide</a>
+  <header class="topbar">
+    <a class="brand" href="#top">Desk<span>Pilot</span></a>
+    <nav class="topnav" aria-label="Page sections">
+      <a href="#using">How to use</a>
+      <a href="#technical">Technical</a>
+      <a href="#rebuild">Rebuild with AI</a>
+      <a href="#event-day">Event-day playbook</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <div class="intro" id="top">
+      <div>
+        <p class="eyebrow">Product guide / AI Friday practice prototype</p>
+        <h1>DeskPilot<span>.</span></h1>
+        <p class="lede">A service-desk assistant that prepares evidence-backed ticket triage for an analyst to review. It suggests a category, urgency, and next step; the human remains responsible for every decision.</p>
+        <span class="status">Live demo · synthetic data only</span>
+        <div class="actions">
+          <a class="button" href="https://deskpilot123.streamlit.app/">Open live demo</a>
+          <a class="button secondary" href="https://github.com/jxn-01/DeskPilot">Browse source on GitHub</a>
+        </div>
+      </div>
+      <aside class="intro-note">
+        <strong>What this prototype proves</strong>
+        A small, inspectable workflow can sort example tickets, find relevant support guidance, and clearly flag cases that need a person. It is a practice prototype, not a production service desk integration.
+      </aside>
+    </div>
+
+    <div class="flow-band" aria-label="DeskPilot workflow">
+      <div class="flow-step"><span class="step-number">01 / INTAKE</span><strong>Load tickets</strong><span>Use the included examples or upload a CSV.</span></div>
+      <div class="flow-step"><span class="step-number">02 / TRIAGE</span><strong>Classify the request</strong><span>Suggest category and urgency.</span></div>
+      <div class="flow-step"><span class="step-number">03 / EVIDENCE</span><strong>Find a guide</strong><span>Show the support text used for context.</span></div>
+      <div class="flow-step"><span class="step-number">04 / HANDOFF</span><strong>Review and export</strong><span>Flag cases for an analyst; download results.</span></div>
+    </div>
+
+    <section id="using">
+      <div class="section-head">
+        <p class="eyebrow">Main guide</p>
+        <div>
+          <h2>Use DeskPilot</h2>
+          <p class="section-copy">The app opens with six synthetic tickets. For a broader test, download the ten-ticket alternate set and upload it in the app.</p>
+        </div>
+      </div>
+      <div class="steps">
+        <article class="how-step">
+          <span class="step-number">01</span>
+          <div><h3>Open the demo</h3><p>Visit the live app. The sidebar shows whether the app is in offline demo mode or connected to an LLM.</p></div>
+          <span class="step-tip">No setup is needed to try the built-in examples.</span>
+        </article>
+        <article class="how-step">
+          <span class="step-number">02</span>
+          <div><h3>Load a ticket file</h3><p>Keep the built-in six tickets, or use the uploader to select a CSV with <code>ticket_id</code> and <code>description</code> columns. The alternate file explores BI, facilities, expenses, and access scenarios.</p></div>
+          <span class="step-tip"><a href="alternate_sample_tickets.csv" download>Download 10 alternate tickets</a></span>
+        </article>
+        <article class="how-step">
+          <span class="step-number">03</span>
+          <div><h3>Optionally add support guides</h3><p>Upload Markdown or text files with sections beginning with <code>##</code>. Otherwise, DeskPilot uses its included synthetic support guides.</p></div>
+          <span class="step-tip"><a href="support_guides.md">View included guide</a></span>
+        </article>
+        <article class="how-step">
+          <span class="step-number">04</span>
+          <div><h3>Analyze, inspect, and export</h3><p>Choose <strong>Analyze tickets</strong>. Review the queue summary, select a ticket, inspect the suggested next step and guide evidence, then download the review as CSV.</p></div>
+          <span class="step-tip">A human analyst makes the final decision.</span>
+        </article>
+      </div>
+      <div class="outcomes" style="margin-top:1.5rem">
+        <div class="outcome"><b>Category</b><p>Connectivity, account access, software, security, or other.</p></div>
+        <div class="outcome"><b>Urgency and review</b><p>Security signals are high urgency; security, access grants, software approvals, uncertainty, and missing evidence are flagged for human review.</p></div>
+        <div class="outcome"><b>Suggested next step</b><p>A recommendation with the matched guide title and its supporting excerpt when available.</p></div>
+      </div>
+      <div class="notice"><strong>Demo safety:</strong> Use synthetic data only. DeskPilot does not send replies, change permissions, unlock accounts, install software, or close tickets. In live LLM mode, ticket text and retrieved guide excerpts are sent to the configured model endpoint.</div>
+      <div class="file-links" aria-label="Project files">
+        <a href="sample_tickets.csv">Six-ticket sample</a>
+        <a href="alternate_sample_tickets.csv">Ten-ticket alternate sample</a>
+        <a href="prototype_rules.md">Prototype rules</a>
+        <a href="expected_results.csv">Evaluation answer key (do not upload)</a>
+        <a href="README.md">Setup and deployment notes</a>
+      </div>
+    </section>
+
+    <section id="technical">
+      <span class="annex-tag">Annex A / Technical reference</span>
+      <div class="section-head">
+        <p class="eyebrow">Build record</p>
+        <div>
+          <h2>What it is built with</h2>
+          <p class="section-copy">This is the technology actually used in the current prototype, not the larger stack originally considered.</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Component</th><th scope="col">Current implementation</th><th scope="col">Purpose</th></tr></thead>
+          <tbody>
+            <tr><td>Language</td><td>Python</td><td>Loads ticket data and coordinates the analysis steps.</td></tr>
+            <tr><td>User interface</td><td>Streamlit</td><td>Ticket upload, queue, review details, evidence, and CSV export.</td></tr>
+            <tr><td>Tabular data</td><td>Pandas</td><td>Reads and presents ticket CSV files.</td></tr>
+            <tr><td>Guide retrieval</td><td>Built-in keyword overlap</td><td>Matches ticket terms to Markdown guide sections. This is not embedding-based RAG.</td></tr>
+            <tr><td>Live model option</td><td>OpenAI Python SDK / compatible endpoint</td><td>One model request per ticket when an API secret is configured; otherwise transparent offline rules run.</td></tr>
+            <tr><td>Source repository</td><td><a href="https://github.com/jxn-01/DeskPilot">GitHub: jxn-01/DeskPilot</a></td><td>Application source, synthetic data, and project notes.</td></tr>
+            <tr><td>Hosting</td><td><a href="https://deskpilot123.streamlit.app/">Streamlit Community Cloud</a></td><td>Hosts the public practice demo.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 style="margin-top:1.8rem">Current request flow</h3>
+      <div class="architecture" aria-label="Technical flow from ticket input through review output">
+        <div class="arch-node"><b>CSV ticket</b><span>Validate ticket_id and description.</span></div>
+        <div class="arch-node"><b>Guide match</b><span>Find up to two likely guide sections.</span></div>
+        <div class="arch-node"><b>Analysis</b><span>Local rules or one configured LLM request.</span></div>
+        <div class="arch-node"><b>Safety flags</b><span>Force human review for sensitive cases.</span></div>
+        <div class="arch-node"><b>Analyst output</b><span>Inspect evidence and export a CSV.</span></div>
+      </div>
+      <div class="notice"><strong>Not implemented yet:</strong> LangChain or LangGraph, FAISS/Pinecone/Weaviate, PDF extraction, independent multi-agent orchestration, ticketing-system integration, authentication, and production monitoring. These can be future increments; they are not features of this demo.</div>
+    </section>
+
+    <section id="rebuild">
+      <span class="annex-tag">Annex B / Rebuild with AI tools</span>
+      <div class="section-head">
+        <p class="eyebrow">Reproducibility</p>
+        <div>
+          <h2>Build a similar tool from scratch</h2>
+          <p class="section-copy">Use GitHub Copilot as a pair-programmer: ask for small, testable changes, inspect the code, run it, and verify the outputs. AI-generated code still needs human review.</p>
+        </div>
+      </div>
+      <ol class="build-list">
+        <li><div><h3>Turn the brief into a contract</h3><p>Write down the user, input format, expected output fields, safety rules, and what the prototype will not do. Agree on sample cases before writing code.</p></div></li>
+        <li><div><h3>Ask Copilot for a minimal scaffold</h3><p>Start with a Streamlit page, requirements file, and synthetic CSV. Keep the initial scope to one workflow and one screen.</p><pre>Build a small Streamlit prototype for synthetic support tickets.
+Input CSV columns: ticket_id, description.
+Show category, urgency, suggested action, guide evidence,
+and needs_human_review. Never perform ticket actions.</pre></div></li>
+        <li><div><h3>Implement one step at a time</h3><p>Ask for CSV validation, guide loading, retrieval, and classification separately. Review each diff and run the app after each change.</p></div></li>
+        <li><div><h3>Make safety explicit</h3><p>Keep security escalation and human approval rules in code. Ask Copilot to add tests for credential exposure, software approval, missing evidence, malformed CSV, and model failure.</p></div></li>
+        <li><div><h3>Add live LLM use only after offline tests pass</h3><p>Store keys in the hosting provider's secrets manager. Use structured output, validate model fields, show evidence, and keep deterministic safety overrides.</p></div></li>
+        <li><div><h3>Test against a separate answer key</h3><p>Compare category, urgency, and review flags to expected results. Keep the answer key out of the app's input flow; manually inspect the evidence and failure cases.</p></div></li>
+        <li><div><h3>Publish and verify</h3><p>Push only intended files to GitHub, deploy the app, set secrets through Cloud settings, and test the deployed URL with synthetic data.</p></div></li>
+      </ol>
+      <div class="notice"><strong>Useful Copilot habit:</strong> ask it to explain a proposed change and name the test that would prove it works. Don’t paste passwords, API keys, customer tickets, or confidential documents into prompts.</div>
+    </section>
+
+    <section id="event-day">
+      <span class="annex-tag">Annex C / Recommended addition</span>
+      <div class="section-head">
+        <p class="eyebrow">Event-day adaptation</p>
+        <div>
+          <h2>A playbook for the 2 PM brief</h2>
+          <p class="section-copy">This is the extra section I recommend: it turns the prototype into a reusable team method for an unknown case, without pretending DeskPilot is the answer to every business problem.</p>
+        </div>
+      </div>
+      <div class="role-grid">
+        <div class="role"><b>Understand the case</b><p>Who has the problem? What work is slow, risky, costly, or inconsistent? What outcome matters?</p></div>
+        <div class="role"><b>Shape a measurable pilot</b><p>Choose one narrow workflow, a demo input, one success measure, and a baseline the team can explain.</p></div>
+        <div class="role"><b>Map AI to the work</b><p>Use retrieval when trusted knowledge matters; use classification for routing; use an agentic sequence only when multiple steps genuinely add value.</p></div>
+        <div class="role"><b>Check risk and control</b><p>Identify sensitive data, unsupported claims, approval points, and what the prototype must never do automatically.</p></div>
+        <div class="role"><b>Build the smallest demo</b><p>Change the input, guidance, and output around the case. Avoid new infrastructure unless the story needs it.</p></div>
+        <div class="role"><b>Present evidence</b><p>Show one realistic case, its evidence, a human decision, one measured result, limitations, and the next pilot step.</p></div>
+      </div>
+      <h3 style="margin-top:1.8rem">Suggested five-person split</h3>
+      <p class="section-copy">BI owns measures and the value case; cybersecurity reviews data and safeguards; project management keeps scope and time; one teammate handles the demo and tests; one coordinates the problem framing and pitch. Rotate roles to match the actual brief.</p>
+    </section>
+
+    <footer class="footer">
+      <span>DeskPilot / Practice prototype / Updated October 2026</span>
+      <a href="#top">Back to top</a>
+    </footer>
+  </main>
+</body>
+</html>

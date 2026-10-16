@@ -1,0 +1,11 @@
+ticket_id,description
+TKT-2001,"The finance team needs the approved reconciliation add-on installed in the accounting application before month-end close."
+TKT-2002,"The conference-room display shows no signal when connected to the wall panel, although the laptop screen works."
+TKT-2003,"The printer accepts large reports but leaves them paused in the queue until someone cancels the jobs."
+TKT-2004,"The sales dashboard is still showing last week's figures even though today's source data has loaded."
+TKT-2005,"My travel expense claim total differs from the itemized hotel and taxi receipts attached to the report."
+TKT-2006,"The meeting-room microphone is not detected by the video-conference system, but the camera works."
+TKT-2007,"Our identity monitoring system raised a security warning for repeated MFA approval requests from a device I do not recognize."
+TKT-2008,"Endpoint protection raised a security warning after my company tablet was reported missing during a client visit."
+TKT-2009,"Please grant the new regional analyst access to the procurement analytics workspace; manager approval is attached."
+TKT-2010,"A recurring room booking still appears on the calendar even though the organizer canceled the series yesterday."
