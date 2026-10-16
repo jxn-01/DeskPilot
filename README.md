@@ -2,6 +2,8 @@
 
 DeskPilot is a practice project for an AI Friday event. It helps service desk analysts triage synthetic employee support tickets by suggesting a category, urgency, evidence-backed next step, and whether a human must review the ticket.
 
+**[Open the rendered product and technical guide](https://jxn-01.github.io/DeskPilot/README.html)** · [Launch the live app](https://deskpilot123.streamlit.app/)
+
 ## Files
 
 - `sample_tickets.csv`: synthetic input tickets for the demo

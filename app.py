@@ -241,7 +241,7 @@ def main() -> None:
                 "DeskPilot suggests; it does not take ticket or account actions. "
                 "Use synthetic data only. Live mode sends ticket text and matched guide excerpts to the configured model."
             )
-            st.markdown("[Full product and technical guide](https://github.com/jxn-01/DeskPilot/blob/main/README.html)")
+            st.markdown("[Full product and technical guide](https://jxn-01.github.io/DeskPilot/README.html)")
 
     try:
         guides = read_uploaded_guides(uploaded_guides)
